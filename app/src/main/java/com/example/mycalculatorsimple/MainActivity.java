@@ -60,34 +60,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        MaterialButton button =(MaterialButton) view;
+        MaterialButton button = (MaterialButton) view;
         String buttonText = button.getText().toString();
         String dataToCalculate = solutionTv.getText().toString();
 
-        if(buttonText.equals("AC")){
+        if (buttonText.equals("AC")) {
             solutionTv.setText("");
             resultTv.setText("0");
-            return;
-        }
-        if(buttonText.equals("=")){
+        } else if (buttonText.equals("=")) {
             solutionTv.setText(resultTv.getText());
-            return;
-        }
-        if(buttonText.equals("C")){
-            dataToCalculate=dataToCalculate.substring(0,dataToCalculate.length()-1);
-        }else{
-            dataToCalculate = dataToCalculate+buttonText;
+        } else if (buttonText.equals("C")) {
+            if (dataToCalculate.length() > 0) {
+                dataToCalculate = dataToCalculate.substring(0, dataToCalculate.length() - 1);
+            }
+        } else {
+            dataToCalculate = dataToCalculate + buttonText;
         }
 
         solutionTv.setText(dataToCalculate);
 
-        String finalResult = getResult(dataToCalculate);
+        // Check if the input is not empty before trying to evaluate it
+        if (!dataToCalculate.isEmpty()) {
+            String finalResult = getResult(dataToCalculate);
 
-        if(!finalResult.equals("Err")){
-            resultTv.setText(finalResult);
+            if (!finalResult.equals("Err")) {
+                resultTv.setText(finalResult);
+            }
+        } else {
+            // If the input is empty, display 0
+            resultTv.setText("0");
         }
-
     }
+
 
 
     String getResult(String data){
